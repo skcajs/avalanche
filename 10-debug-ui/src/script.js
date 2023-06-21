@@ -1,6 +1,12 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import gsap from 'gsap'
+import GUI from 'lil-gui'
+
+/**
+ * Debug
+ */
+const gui = new GUI()
 
 /**
  * Base
@@ -18,6 +24,37 @@ const geometry = new THREE.BoxGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+// Debug
+
+const parameters = {
+    color: material.color,
+    spin: () => {
+        gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + Math.PI * 2})
+    }
+}
+
+gui
+    .add(mesh.position, 'y')
+    .min(-3)
+    .max(3)
+    .step(0.01)
+    .name('elevation')
+
+gui
+    .add(mesh, 'visible')
+
+gui
+    .add(material, 'wireframe')
+
+gui
+    .addColor(parameters, 'color')
+    .onChange(() => {
+        material.color.set(parameters.color)
+    })
+
+gui
+    .add(parameters, 'spin')
 
 /**
  * Sizes
