@@ -9,6 +9,10 @@ html
     background: #1e1a20
 }
 
+body::-webkit-scrollbar{
+    display: none;
+}
+
 /* html,
 body
 {

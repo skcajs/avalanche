@@ -10,7 +10,7 @@ THREE.ColorManagement.enabled = false
 const gui = new dat.GUI()
 
 const parameters = {
-    materialColor: '#ffeded'
+    materialColor: '#ff7300'
 }
 
 gui
@@ -49,7 +49,7 @@ const mesh1 = new THREE.Mesh(
     material
 )
 const mesh2 = new THREE.Mesh(
-    new THREE.ConeGeometry(1, 2, 32),
+    new THREE.SphereGeometry(1, 2, 32),
     material
 )
 const mesh3 = new THREE.Mesh(
@@ -64,6 +64,10 @@ mesh3.position.y = - objectsDistance * 2
 mesh1.position.x = 2
 mesh2.position.x = -2
 mesh3.position.x = 2
+
+mesh1.scale.set(0.5,0.5,0.5)
+mesh2.scale.set(0.5,0.5,0.5)
+mesh3.scale.set(0.5,0.5,0.5)
 
 scene.add(mesh1, mesh2, mesh3)
 
@@ -158,7 +162,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 let scrollY = window.scrollY
 let currentSection = 0
 
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', (event) => {
     scrollY = window.scrollY
 
     const newSection = Math.round(scrollY / sizes.height)
@@ -169,11 +173,10 @@ window.addEventListener('scroll', () => {
         gsap.to(
             sectionMeshes[currentSection].rotation, 
             {
-                duration: 1.5,
+                duration: 2.0,
                 ease: 'power2.inOut',
-                x: '+=6',
-                y: '+=3',
-                z: '+=1.5'
+                x: '-=3',
+                z: '-=3'
             }
         )
     }
@@ -208,8 +211,8 @@ const tick = () =>
     
     const paralaxX = cursor.x
     const paralaxY = - cursor.y
-    cameraGroup.position.x += (paralaxX - cameraGroup.position.x) * 0.25 * deltaTime
-    cameraGroup.position.y += (paralaxY - cameraGroup.position.y) * 0.25 * deltaTime
+    cameraGroup.position.x += (paralaxX - cameraGroup.position.x) * 0.125 * deltaTime
+    cameraGroup.position.y += (paralaxY - cameraGroup.position.y) * 0.125 * deltaTime
 
     // Animate meshes
     for(const mesh of sectionMeshes){
